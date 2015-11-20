@@ -3,21 +3,22 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package MultiLayerPerceptron;
+package SinglePerceptron;
 
-import java.util.*;
+import java.util.Random;
+import java.util.Vector;
 
 /**
  *
- * @author Teofebano
+ * @author Andrey
  */
-public class Neuron {
+public class SingleNeuron {
     // Attributes
     public int numInputs;
     public Vector<Double> weights;
     
     // CTOR
-    Neuron(int numInputs){
+    SingleNeuron(int numInputs){
         weights = new Vector<>();
         Random ran = new Random();
         this.numInputs = numInputs+1; // including bias

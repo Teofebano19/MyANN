@@ -14,16 +14,11 @@ import java.util.Vector;
  */
 public class SingleNeuronLayer {
     // Attributes
-    public int numNeurons;
     public Vector<SingleNeuron> neurons;
+    public Double inputs;
     
     // CTOR
-    SingleNeuronLayer(int numNeurons, int numInputperNeurons){
-        this.numNeurons = numNeurons;
-        neurons = new Vector<>();
-        for (int i=0;i<numNeurons;i++){
-            SingleNeuron neuron = new SingleNeuron(numInputperNeurons);
-            neurons.addElement(neuron);
-        }
+    SingleNeuronLayer(){
+        
     }
 }

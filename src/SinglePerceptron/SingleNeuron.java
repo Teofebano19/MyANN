@@ -14,16 +14,10 @@ import java.util.Vector;
  */
 public class SingleNeuron {
     // Attributes
-    public int numInputs;
     public Vector<Double> weights;
+    public Double target;
     
     // CTOR
-    SingleNeuron(int numInputs){
-        weights = new Vector<>();
-        Random ran = new Random();
-        this.numInputs = numInputs+1; // including bias
-        for (int i=0;i<this.numInputs;i++){
-            weights.addElement(-1+(2*ran.nextDouble()));
-        }
+    SingleNeuron(){
     }
 }

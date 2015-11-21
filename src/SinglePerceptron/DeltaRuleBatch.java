@@ -1,12 +1,10 @@
 package SinglePerceptron;
 
-import java.util.*;
-        
 /**
  *
  * @author Andrey
  */
-public final class PerceptronTrainingRule {
+public final class DeltaRuleBatch {
     public static Double learningrate = 0.1;
     public static int maxepoch = 10;
     public static Double errortreshold = 0.01;
@@ -21,14 +19,14 @@ public final class PerceptronTrainingRule {
     SingleNeuron neuron = new SingleNeuron();
     Helper helper = new Helper();
  
-    PerceptronTrainingRule(){
+    DeltaRuleBatch(){
         currentepoch = 1;
         realoutput = 0.0;
         
         while(currentepoch <= maxepoch || isConvergent){
             for(int i = 0; i < neuron.numinstances; i++){
                 CountRealOutput(i);
-                output = helper.SignActivationFunction(realoutput);
+                output = realoutput;
                 realoutput = 0.0;
                 targetminoutput = neuron.targets.elementAt(i) - output;
                 for(int j = 0; j < neuron.numinputs; j++){
@@ -56,14 +54,12 @@ public final class PerceptronTrainingRule {
             for(int j = 0; j < neuron.numinputs; j++){
                 realoutput += neuron.data.elementAt(i).elementAt(j) * neuron.weights.elementAt(j);
             }
-            output = helper.SignActivationFunction(realoutput);
+            output = realoutput;
             realoutput = 0.0;
             targetminoutput = neuron.targets.elementAt(i) - output;
             //count error
             error += targetminoutput*targetminoutput;
         }
         error = error/2;
-    }
+    }    
 }
-
-

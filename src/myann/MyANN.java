@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package myann;
 
 import java.util.logging.Level;
@@ -12,6 +7,10 @@ import weka.classifiers.Evaluation;
 import weka.core.Debug;
 import weka.core.Instances;
 import weka.core.converters.ConverterUtils;
+
+import SinglePerceptron.PerceptronTrainingRule;
+import SinglePerceptron.SingleNeuron;
+import SinglePerceptron.Helper;
 
 /**
  *
@@ -30,8 +29,11 @@ public class MyANN {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        MyANN main = new MyANN();
-        main.run();
+        //MyANN main = new MyANN();
+        //main.run();
+        
+        SingleNeuron SN = new SingleNeuron();
+        
     }
     
     private void run(){

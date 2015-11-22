@@ -41,6 +41,8 @@ public final class DeltaRuleBatch {
             }
             currentepoch++;
         }
+        
+        System.out.println("Epoch sekarang: "+currentepoch);
     }
     
     public void CountRealOutput(int d){

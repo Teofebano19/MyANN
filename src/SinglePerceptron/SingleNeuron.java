@@ -15,35 +15,35 @@ public class SingleNeuron {
     public Vector<Vector<Double>> data;
     
     // CTOR
-    SingleNeuron(){
+    public SingleNeuron(){
         this.numinstances = 3;
         this.numinputs = 4;//termasuk bias
         
-        inputs.add(1.0);//bias
-        inputs.add(1.0);
-        inputs.add(0.0);
-        inputs.add(1.0);
-        data.add(inputs);
+        inputs.addElement(1.0);//bias
+        inputs.addElement(1.0);
+        inputs.addElement(0.0);
+        inputs.addElement(1.0);
+        data.addElement(inputs);
         
-        inputs.add(1.0);//bias
-        inputs.add(0.0);
-        inputs.add(-1.0);
-        inputs.add(-1.0);
-        data.add(inputs);
+        inputs.addElement(1.0);//bias
+        inputs.addElement(0.0);
+        inputs.addElement(-1.0);
+        inputs.addElement(-1.0);
+        data.addElement(inputs);
         
-        inputs.add(1.0);//bias
-        inputs.add(-1.0);
-        inputs.add(-0.5);
-        inputs.add(-1.0);
-        data.add(inputs);
+        inputs.addElement(1.0);//bias
+        inputs.addElement(-1.0);
+        inputs.addElement(-0.5);
+        inputs.addElement(-1.0);
+        data.addElement(inputs);
         
-        weights.add(0.0);
-        weights.add(0.0);
-        weights.add(0.0);
-        weights.add(0.0);   
+        weights.addElement(0.0);
+        weights.addElement(0.0);
+        weights.addElement(0.0);
+        weights.addElement(0.0);   
         
-        targets.add(-1.0);
-        targets.add(1.0);
-        targets.add(1.0);
+        targets.addElement(-1.0);
+        targets.addElement(1.0);
+        targets.addElement(1.0);
     }
 }

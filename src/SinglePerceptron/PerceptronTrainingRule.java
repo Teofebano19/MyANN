@@ -21,7 +21,7 @@ public final class PerceptronTrainingRule {
     SingleNeuron neuron = new SingleNeuron();
     Helper helper = new Helper();
  
-    PerceptronTrainingRule(){
+    public PerceptronTrainingRule(){
         currentepoch = 1;
         realoutput = 0.0;
         

@@ -32,7 +32,7 @@ public class MyANN {
         //MyANN main = new MyANN();
         //main.run();
         
-        SingleNeuron SN = new SingleNeuron();
+        PerceptronTrainingRule PTR = new PerceptronTrainingRule();
         
     }
     

@@ -16,6 +16,11 @@ public class SingleNeuron {
     
     // CTOR
     public SingleNeuron(){
+        weights = new Vector<>();
+        inputs = new Vector<>();
+        targets = new Vector<>();
+        data = new Vector<>();
+        
         this.numinstances = 3;
         this.numinputs = 4;//termasuk bias
         
@@ -24,6 +29,7 @@ public class SingleNeuron {
         inputs.addElement(0.0);
         inputs.addElement(1.0);
         data.addElement(inputs);
+        inputs.clear();
         
         inputs.addElement(1.0);//bias
         inputs.addElement(0.0);
@@ -31,6 +37,7 @@ public class SingleNeuron {
         inputs.addElement(-1.0);
         data.addElement(inputs);
         
+        inputs.clear();
         inputs.addElement(1.0);//bias
         inputs.addElement(-1.0);
         inputs.addElement(-0.5);

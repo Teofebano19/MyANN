@@ -30,10 +30,12 @@ public final class DeltaRuleBatch {
         isConvergent = false;
         error = 1000000.0;
         sumweight = new Vector<>();
-        sumdeltaweight = 0.0;
     }
     
     public void run(){
+        for(int idx = 0; idx < neuron.numinputs; idx++){
+            sumweight.addElement(0.0);
+        }
         while(currentepoch <= maxepoch && !isConvergent){
             System.out.println("Epoch: "+currentepoch);
             for(int i = 0; i < neuron.numinstances; i++){
@@ -43,19 +45,24 @@ public final class DeltaRuleBatch {
                 realoutput = 0.0;
                 targetminoutput = neuron.targets.elementAt(i) - output;
                 for(int j = 0; j < neuron.numinputs; j++){
-                    deltaweight = learningrate * targetminoutput * neuron.data.elementAt(i).elementAt(j); 
-                    sumdeltaweight += deltaweight;
-                    updatedweight = neuron.weights.elementAt(j) + deltaweight;
-                    sumweight.setElementAt(output, j);
-                    neuron.weights.setElementAt(updatedweight,j);
+                    deltaweight = learningrate * targetminoutput * neuron.data.elementAt(i).elementAt(j);
+                    sumweight.setElementAt(sumweight.elementAt(j)+deltaweight, j);
                 }
             }
+            for(int k = 0; k < neuron.numinputs; k++){
+                neuron.weights.setElementAt(neuron.weights.elementAt(k)+sumweight.elementAt(k), k);
+                System.out.println("neuron weights "+neuron.weights.elementAt(k));
+            }        
             error = 0.0;
             CountError();
             if(error <= errortreshold){
                 isConvergent = true;
             }
             currentepoch++;
+            
+            for(int idx = 0; idx < neuron.numinputs; idx++){
+                sumweight.setElementAt(0.0, idx);
+            }
         }
     }
     
@@ -73,12 +80,17 @@ public final class DeltaRuleBatch {
         for(int i = 0; i < neuron.numinstances; i++){
             for(int j = 0; j < neuron.numinputs; j++){
                 realoutput += neuron.data.elementAt(i).elementAt(j) * neuron.weights.elementAt(j);
+                System.out.println("neuronweightselementat" + neuron.weights.elementAt(j));
             }
-            output = helper.SignActivationFunction(realoutput);
+            output = realoutput;
             realoutput = 0.0;
             targetminoutput = neuron.targets.elementAt(i) - output;
+            System.out.println("neurontargeteselementat" + neuron.targets.elementAt(i));
+            System.out.println("targetminoutput" + targetminoutput);
+            System.out.println("");
             error += targetminoutput*targetminoutput;
         }
         error = error/2;
+        System.out.println("Error: "+error);
     }
 }

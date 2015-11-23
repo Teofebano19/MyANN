@@ -9,6 +9,7 @@ import weka.core.Instances;
 import weka.core.converters.ConverterUtils;
 
 import SinglePerceptron.PerceptronTrainingRule;
+import SinglePerceptron.DeltaRuleBatch;
 import SinglePerceptron.SingleNeuron;
 import SinglePerceptron.Helper;
 
@@ -32,8 +33,8 @@ public class MyANN {
         //MyANN main = new MyANN();
         //main.run();
         
-        PerceptronTrainingRule PTR = new PerceptronTrainingRule();
-        PTR.run();
+        DeltaRuleBatch test = new DeltaRuleBatch();
+        test.run();
         
     }
     

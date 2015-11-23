@@ -67,7 +67,6 @@ public final class DeltaRuleIncremental {
             for(int j = 0; j < neuron.numinputs; j++){
                 realoutput += neuron.data.elementAt(i).elementAt(j) * neuron.weights.elementAt(j);
             }
-            output = helper.SignActivationFunction(realoutput);
             realoutput = 0.0;
             targetminoutput = neuron.targets.elementAt(i) - output;
             error += targetminoutput*targetminoutput;

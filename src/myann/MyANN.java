@@ -33,6 +33,7 @@ public class MyANN {
         //main.run();
         
         PerceptronTrainingRule PTR = new PerceptronTrainingRule();
+        PTR.run();
         
     }
     

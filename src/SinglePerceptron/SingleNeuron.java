@@ -29,21 +29,25 @@ public class SingleNeuron {
         inputs.addElement(0.0);
         inputs.addElement(1.0);
         data.addElement(inputs);
-        inputs.clear();
         
+        inputs = new Vector<>();
         inputs.addElement(1.0);//bias
         inputs.addElement(0.0);
         inputs.addElement(-1.0);
         inputs.addElement(-1.0);
         data.addElement(inputs);
         
-        inputs.clear();
+        inputs = new Vector<>();
         inputs.addElement(1.0);//bias
         inputs.addElement(-1.0);
         inputs.addElement(-0.5);
         inputs.addElement(-1.0);
         data.addElement(inputs);
         
+        System.out.println(data.elementAt(0).elementAt(0)+" , "+data.elementAt(0).elementAt(1)+" , "+data.elementAt(0).elementAt(2)+" , "+data.elementAt(0).elementAt(3));
+        System.out.println(data.elementAt(1).elementAt(0)+" , "+data.elementAt(1).elementAt(1)+" , "+data.elementAt(1).elementAt(2)+" , "+data.elementAt(1).elementAt(3));
+        System.out.println(data.elementAt(2).elementAt(0)+" , "+data.elementAt(2).elementAt(1)+" , "+data.elementAt(2).elementAt(2)+" , "+data.elementAt(2).elementAt(3));
+                
         weights.addElement(0.0);
         weights.addElement(0.0);
         weights.addElement(0.0);

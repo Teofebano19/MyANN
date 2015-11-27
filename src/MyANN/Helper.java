@@ -7,8 +7,8 @@ package MyANN;
  * @author Andrey
  */
 public class Helper {
-    public Double SigmoidActivationFunction(Double d){
-        return 0.0;
+    public Double SigmoidActivationFunction(double totalInput, double control){
+        return (1/(1+ Math.exp(-totalInput/control)));
     }
 
     public Double SignActivationFunction(Double d){

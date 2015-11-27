@@ -1,5 +1,8 @@
-package myann;
+package MyANN;
 
+
+
+import MyANN.SingleLayerPerceptron.DeltaRuleBatch;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import weka.classifiers.Classifier;
@@ -7,11 +10,6 @@ import weka.classifiers.Evaluation;
 import weka.core.Debug;
 import weka.core.Instances;
 import weka.core.converters.ConverterUtils;
-
-import SinglePerceptron.PerceptronTrainingRule;
-import SinglePerceptron.DeltaRuleBatch;
-import SinglePerceptron.SingleNeuron;
-import SinglePerceptron.Helper;
 
 /**
  *

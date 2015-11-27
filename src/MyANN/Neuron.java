@@ -1,9 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package MultiLayerPerceptron;
+package MyANN;
+
+
 
 import java.util.*;
 
@@ -17,7 +14,7 @@ public class Neuron {
     public Vector<Double> weights;
     
     // CTOR
-    Neuron(int numInputs){
+    public Neuron(int numInputs){
         weights = new Vector<>();
         Random ran = new Random();
         this.numInputs = numInputs+1; // including bias

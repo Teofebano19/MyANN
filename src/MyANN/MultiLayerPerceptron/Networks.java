@@ -8,27 +8,32 @@ package MyANN.MultiLayerPerceptron;
 
 
 import java.util.*;
+import MyANN.Helper;
+import weka.classifiers.Classifier;
+import weka.core.Instances;
 
 /**
  *
  * @author Teofebano
  */
-public class Networks {
+public class Networks extends Classifier{
     // Main Attributes
     public int numInputs;
     public int numOutputs;
     public int numHiddenLayer;
-    public int numHiddenNeuron; 
+    public int numHiddenNeuron;
+    public double RATE;
     
     public Vector<NeuronLayer> networks;
     public Vector<Double> middleOutput;
     
     // CTOR
-    public Networks(int numInputs, int numOutputs, int numHiddenLayer, int numHiddenNeuron){
+    public Networks(int numInputs, int numOutputs, int numHiddenLayer, int numHiddenNeuron, double RATE){
         this.numInputs = numInputs;
         this.numOutputs = numOutputs;
         this.numHiddenLayer = numHiddenLayer;
         this.numHiddenNeuron = numHiddenNeuron;
+        this.RATE = RATE;
         
         networks = new Vector<>();
         middleOutput = new Vector<>();
@@ -102,6 +107,7 @@ public class Networks {
     
     // Calculate forward chaining
     public Vector<Double> ForwardChaining(Vector<Double> input){
+        Helper helper = new Helper();
         Vector<Double> inputs = new Vector<>();
         Vector<Double> outputs = new Vector<>();
         int counter; // counter for inputs
@@ -137,14 +143,106 @@ public class Networks {
                 }
                 totAmount += networks.elementAt(i).neurons.elementAt(j).weights.elementAt(numInputs-1); // bias
                 // Storing
-                outputs.addElement(Sigmoid(totAmount,1)); // Control = 1
+                outputs.addElement(helper.SigmoidActivationFunction(totAmount,1)); // Control = 1
                 counter = 0;
             }
         }
         return outputs;
     }
-
-    public double Sigmoid(double totalInput, double control){
-        return (1/(1+ Math.exp(-totalInput/control)));
+    
+    public Vector<Double> calculateError(Vector<Double> input, Vector<Double> targetOutput){
+        Vector<Double> actualOutput = new Vector<Double>();
+        Vector<Double> error = new Vector<Double>();
+        for (int i=0;i<actualOutput.size();i++){
+            error.addElement(new Double(actualOutput.elementAt(i)*(1-actualOutput.elementAt(i))*(targetOutput.elementAt(i)-actualOutput.elementAt(i))));
+        }
+        return error;
     }
+    
+    public void backPropagate(Vector<Double> input, Vector<Double> targetOutput){
+        Vector<Double> errorHidden = new Vector<Double>();
+        Vector<Double> error = new Vector<Double>();
+        Vector<Double> oldWeight = this.GetWeights();
+        
+        // Calculating hidden error
+        for (int i=this.numHiddenLayer;i>0;i--){
+            error.clear();
+            if (i==this.numHiddenLayer){
+                error = calculateError(input, targetOutput);
+            }
+            else{
+                for (int j=errorHidden.size()-numHiddenNeuron;j<errorHidden.size();j++){
+                        error.addElement(errorHidden.elementAt(j));
+                }
+            }
+            for (int j=numHiddenNeuron;j>0;j--){
+                Vector<Double> sumError = new Vector<Double>();
+                for (int k=error.size();k>0;k--){
+                    if (i==numHiddenLayer){
+                        sumError.addElement(new Double(error.elementAt(k-1)*oldWeight.elementAt(
+                            ((numInputs+1)*numHiddenNeuron+(numHiddenNeuron+1)*numHiddenNeuron*(numHiddenLayer-1)+(numHiddenNeuron+1)*numOutputs)-2-((numHiddenNeuron+1)*(numOutputs-k))-(numHiddenNeuron-j)
+                        )));
+                    }
+                    else{
+                        sumError.addElement(new Double(error.elementAt(k-1)*oldWeight.elementAt(
+                                ((numInputs+1)*numHiddenNeuron+(numHiddenNeuron+1)*numHiddenNeuron*i)-2-((numHiddenNeuron+1)*(numHiddenNeuron-k))-(numHiddenNeuron-j)
+                        )));
+                    }
+                }
+                errorHidden.addElement(total(sumError)*this.middleOutput.elementAt((i*j)-1)*(1-this.middleOutput.elementAt((i*j)-1)));
+            }
+        }
+        
+        // Changing the Weight
+        Vector<Double> newWeight = new Vector<Double>();
+        Vector<Double> inputs = new Vector<Double>();
+        int counterWeight = 0;
+        for (int i=0;i<this.numHiddenLayer+1;i++){ // including Output
+            inputs.clear();
+            if (i==0){
+                for (int j=0;j<input.size();j++){
+                    inputs.addElement(input.elementAt(j));
+                }
+            }
+            else{
+                for (int j=0;j<this.middleOutput.size();j++){
+                    inputs.addElement(this.middleOutput.elementAt(j));
+                }
+            }
+            for (int j=0;j<this.networks.elementAt(i).numNeurons;j++){ 
+                for (int k=0;k<this.networks.elementAt(i).neurons.elementAt(j).numInputs-1;k++){ // excluding bias
+                    if (i==this.numHiddenLayer){
+                            newWeight.addElement(oldWeight.elementAt(counterWeight)+inputs.elementAt(k)*this.RATE*error.elementAt(j));
+                    }
+                    else{
+                            newWeight.addElement(oldWeight.elementAt(counterWeight)+inputs.elementAt(k)*this.RATE*errorHidden.elementAt(errorHidden.size()-this.numHiddenNeuron*i-j-1));
+                    }
+                    counterWeight++;
+                }
+                // bias
+                if (i==this.numHiddenLayer){
+                    newWeight.addElement(oldWeight.elementAt(counterWeight)+RATE*error.elementAt(j));
+                }
+                else{
+                    newWeight.addElement(oldWeight.elementAt(counterWeight)+RATE*errorHidden.elementAt(errorHidden.size()-this.numHiddenNeuron*i-j-1));
+                }
+                counterWeight++;
+            }
+        }
+        PutWeights(newWeight);
+    }
+    
+    private synchronized double total(Vector<Double> total){
+        double x = 0;
+        for (int i=0;i<total.size();i++){
+                x+=total.elementAt(i);
+        }
+        return x;
+    }
+    
+    @Override
+    public void buildClassifier(Instances i) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

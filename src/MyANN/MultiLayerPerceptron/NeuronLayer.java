@@ -7,6 +7,15 @@ package MyANN.MultiLayerPerceptron;
  */
 
 
+
+
+
+
+
+
+
+
+
 import MyANN.Neuron;
 import java.util.*;
 

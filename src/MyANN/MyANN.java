@@ -3,6 +3,7 @@ package MyANN;
 import MyANN.neurons.Neuron;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import weka.classifiers.Classifier;
 import weka.core.Instance;
 import weka.core.Instances;
@@ -12,10 +13,10 @@ public class MyANN extends Classifier {
     private List<Layer> layers;
     private final List<Integer> layersSize;
     private boolean isUpdatingPerEpoch;
-    private int nEpoch = 500;
+    private int nEpoch = 100;
     private int nLayers;
     private double learningRate = 0.1;
-    private double momentum;
+    private double momentum = 0.2;
     private double errorThreshold = 0.01;
     private Neuron neuron;
 
@@ -66,12 +67,17 @@ public class MyANN extends Classifier {
         layers = new ArrayList<>();
         int numLastLayer = numInput;
         // TODO: custom weight initialization
+        Random random = new Random(0);
         for (Integer layerSize : layersSize) {
-            layers.add(new Layer(numLastLayer, layerSize, neuron));
+            Layer layer = new Layer(numLastLayer, layerSize, neuron);
+//            layer.setRandomWeight(random);
+            layers.add(layer);
             numLastLayer = layerSize;
         }
         // final layer
-        layers.add(new Layer(numLastLayer, instances.classAttribute().numValues(), neuron));
+        Layer lastLayer = new Layer(numLastLayer, instances.classAttribute().numValues(), neuron);
+//        lastLayer.setRandomWeight(random);
+        layers.add(lastLayer);
     }
 
     private void train(Instances instances) {
@@ -91,6 +97,7 @@ public class MyANN extends Classifier {
                 }
                 double error = calculateError(expected, lastOutput);
                 totalError += error;
+                System.out.println("\t" + iInstance + ": error = " + error);
                 // back propagation starts here
                 List<List<Double>> deltas = new ArrayList<>();
                 for (int i = 0; i < nLayers; ++i) {
@@ -105,6 +112,7 @@ public class MyANN extends Classifier {
                 }
             }
             System.out.println("Epoch " + epoch + ": error = " + totalError);
+            System.out.println("===========================================");
             if (totalError < errorThreshold) {
                 break;
             }

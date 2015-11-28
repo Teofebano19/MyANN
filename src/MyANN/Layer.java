@@ -4,6 +4,7 @@ import MyANN.neurons.Neuron;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Layer implements Serializable {
     
@@ -33,6 +34,14 @@ public class Layer implements Serializable {
         }
     }
     
+    public void setRandomWeight(Random random) {
+        for (int i = 0; i < nNeurons; ++i) {
+            for (int j = 0; j <= inputSize; ++j) {
+                weights.get(i).set(j, random.nextDouble());
+            }
+        }
+    }
+    
     public void setWeight(int from, int to, double value) {
         weights.get(to).set(from, value);
     }
@@ -50,13 +59,14 @@ public class Layer implements Serializable {
         for (int i = 0; i < neurons.size(); ++i) {
             output.add(neurons.get(i).processInput(weights.get(i), inputWithBias));
         }
+//        System.out.println("input: " + input + "\noutput: " + output);
         return output;
     }
     
     public List<Double> calculateDelta(List<Double> targets, List<Double> outputs) {
         if (targets.size() != neurons.size() || outputs.size() != neurons.size()) {
             throw new IllegalArgumentException(
-                    "Target or output sie mismatch, expecting " + 
+                    "Target or output size mismatch, expecting " + 
                             neurons.size() + ", target was " + targets.size() + 
                             " and output was " + outputs.size());
         }
@@ -66,13 +76,14 @@ public class Layer implements Serializable {
             double output = outputs.get(i);
             deltas.add((target - output) * neurons.get(i).calculateDelta(output));
         }
+//        System.out.println("target: " + targets + "\noutput: " + outputs + "\ndelta: " + deltas);
         return deltas;
     }
     
     public List<Double> calculateDeltaWithBackpropagation(List<Double> outputs, Layer frontLayer, List<Double> frontDeltas) {
         if (outputs.size() != neurons.size()) {
             throw new IllegalArgumentException(
-                    "Output sie mismatch, expecting " + neurons.size() + ", was " + outputs.size());
+                    "Output size mismatch, expecting " + neurons.size() + ", was " + outputs.size());
         }
         List<Double> deltas = new ArrayList<>();
         for (int i = 0; i < outputs.size(); ++i) {
@@ -83,6 +94,7 @@ public class Layer implements Serializable {
             }
             deltas.add(propagatedDelta * neurons.get(i).calculateDelta(output));
         }
+//        System.out.println("delta: " + deltas + "\n");
         return deltas;
     }
     
@@ -94,7 +106,7 @@ public class Layer implements Serializable {
                 weights.get(to).set(from, weights.get(to).get(from) + lastDeltaWeights.get(to).get(from));
             }
         }
-        System.out.println("Weights updated!\n" + weights);
+//        System.out.println("Weights updated!\n" + weights);
     }
 
     private List<Double> getInputWithBias(List<Double> input) {

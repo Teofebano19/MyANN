@@ -5,12 +5,13 @@
         <group>
             <file>file:/E:/Dropbox/ITB/IF/Semester-7/IF4071-Pembelajaran-Mesin/MyANN/src/MyANN/Layer.java</file>
             <file>file:/E:/Dropbox/ITB/IF/Semester-7/IF4071-Pembelajaran-Mesin/MyANN/src/MyANN/SingleLayerPerceptron/SingleLayerPerceptron.java</file>
-            <file>file:/E:/Dropbox/ITB/IF/Semester-7/IF4071-Pembelajaran-Mesin/MyANN/src/MyANN/SingleLayerPerceptron/DeltaRuleBatch.java</file>
+            <file>file:/E:/Dropbox/ITB/IF/Semester-7/IF4071-Pembelajaran-Mesin/MyANN/src/MyANN/MyWekaExplorer.java</file>
+            <file>file:/E:/Dropbox/ITB/IF/Semester-7/IF4071-Pembelajaran-Mesin/MyANN/src/MyANN/Helper.java</file>
+            <file>file:/E:/Dropbox/ITB/IF/Semester-7/IF4071-Pembelajaran-Mesin/MyANN/src/MyANN/neurons/SigmoidNeuron.java</file>
+            <file>file:/E:/Dropbox/ITB/IF/Semester-7/IF4071-Pembelajaran-Mesin/MyANN/src/MyANN/neurons/Neuron.java</file>
+            <file>file:/E:/Dropbox/ITB/IF/Semester-7/IF4071-Pembelajaran-Mesin/MyANN/src/MyANN/Neuron2.java</file>
             <file>file:/E:/Dropbox/ITB/IF/Semester-7/IF4071-Pembelajaran-Mesin/MyANN/src/MyANN/MyANN.java</file>
-            <file>file:/E:/Dropbox/ITB/IF/Semester-7/IF4071-Pembelajaran-Mesin/MyANN/src/MyANN/SingleLayerPerceptron/DeltaRuleIncremental.java</file>
             <file>file:/E:/Dropbox/ITB/IF/Semester-7/IF4071-Pembelajaran-Mesin/MyANN/src/MyANN/MultiLayerPerceptron/Networks.java</file>
-            <file>file:/E:/Dropbox/ITB/IF/Semester-7/IF4071-Pembelajaran-Mesin/MyANN/src/MyANN/MultiLayerPerceptron/NeuronLayer.java</file>
-            <file>file:/E:/Dropbox/ITB/IF/Semester-7/IF4071-Pembelajaran-Mesin/MyANN/src/MyANN/Neuron.java</file>
         </group>
     </open-files>
 </project-private>

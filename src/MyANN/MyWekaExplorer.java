@@ -80,7 +80,7 @@ public class MyWekaExplorer {
     public static void main(String argv[]){
         MyWekaExplorer wekaInterface = new MyWekaExplorer();
         String[] data = new String[]{
-                "data/weather.numeric.arff",
+//                "data/weather.numeric.arff"};
                 "data/iris.arff"};
         Classifier classifier = new MyANN(new ArrayList<>(), new SigmoidNeuron());
         int numData = data.length;

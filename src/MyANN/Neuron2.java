@@ -8,13 +8,13 @@ import java.util.*;
  *
  * @author Teofebano
  */
-public class Neuron {
+public class Neuron2 {
     // Attributes
     public int numInputs;
     public Vector<Double> weights;
     
     // CTOR
-    public Neuron(int numInputs){
+    public Neuron2(int numInputs){
         weights = new Vector<>();
         Random ran = new Random();
         this.numInputs = numInputs+1; // including bias

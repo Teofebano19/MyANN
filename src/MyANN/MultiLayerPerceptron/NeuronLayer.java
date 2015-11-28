@@ -16,7 +16,19 @@ package MyANN.MultiLayerPerceptron;
 
 
 
-import MyANN.Neuron;
+
+
+
+
+
+
+
+
+
+
+
+
+import MyANN.Neuron2;
 import java.util.*;
 
 /**
@@ -26,14 +38,14 @@ import java.util.*;
 public class NeuronLayer {
     // Attributes
     public int numNeurons;
-    public Vector<Neuron> neurons;
+    public Vector<Neuron2> neurons;
     
     // CTOR
     NeuronLayer(int numNeurons, int numInputperNeurons){
         this.numNeurons = numNeurons;
         neurons = new Vector<>();
         for (int i=0;i<numNeurons;i++){
-            Neuron neuron = new Neuron(numInputperNeurons);
+            Neuron2 neuron = new Neuron2(numInputperNeurons);
             neurons.addElement(neuron);
         }
     }

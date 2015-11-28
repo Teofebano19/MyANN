@@ -1,17 +1,15 @@
 package MyANN;
 
-
-
 import java.util.*;
 
-/**
- *
- * @author Teofebano
- */
 public class Neuron {
     // Attributes
     public int numInputs;
     public Vector<Double> weights;
+    public double bias = 1;
+    public double biasweight;
+    public Helper helper;
+    public double output;
     
     // CTOR
     public Neuron(int numInputs){
@@ -22,4 +20,5 @@ public class Neuron {
             weights.addElement(-1+(2*ran.nextDouble()));
         }
     }
+    
 }

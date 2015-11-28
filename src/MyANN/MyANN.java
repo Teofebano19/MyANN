@@ -13,7 +13,7 @@ public class MyANN extends Classifier {
     private List<Layer> layers;
     private final List<Integer> layersSize;
     private boolean isUpdatingPerEpoch;
-    private int nEpoch = 100;
+    private int nEpoch = 10;
     private int nLayers;
     private double learningRate = 0.1;
     private double momentum = 0.2;

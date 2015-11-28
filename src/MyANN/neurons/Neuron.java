@@ -19,7 +19,6 @@ public abstract class Neuron implements Serializable {
             realInput += weight.get(i) * input.get(i);
         }
         double output = calculateActivation(realInput);
-//        System.out.println("processInput: " + input + " = " + realInput + "\nweight: " + weight + "\noutput: " + output);
         return output;
     }
     

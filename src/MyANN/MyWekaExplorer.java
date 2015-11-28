@@ -1,6 +1,7 @@
 package MyANN;
 
 import MyANN.neurons.SigmoidNeuron;
+import MyANN.neurons.SignNeuron;
 import java.util.ArrayList;
 import java.util.Random;
 import weka.classifiers.Classifier;
@@ -40,7 +41,6 @@ public class MyWekaExplorer {
     public void buildClassifier(Classifier classifier) throws Exception{
         this.classifier = classifier;
         classifier.buildClassifier(trainingData);
-
     }
 
     public void testModel() throws Exception{
@@ -54,8 +54,6 @@ public class MyWekaExplorer {
         eval.crossValidateModel(classifier, trainingData, 10, new Random(1));
         System.out.println(eval.toSummaryString("Results", false));
     }
-
-
 
     public void saveModel(String filename) throws Exception{
         SerializationHelper.write(filename, classifier);
@@ -80,8 +78,8 @@ public class MyWekaExplorer {
     public static void main(String argv[]){
         MyWekaExplorer wekaInterface = new MyWekaExplorer();
         String[] data = new String[]{
-//                "data/weather.numeric.arff"};
-                "data/iris.arff"};
+                "data/weather.numeric.arff"};
+//                "data/iris.arff"};
         Classifier classifier = new MyANN(new ArrayList<>(), new SigmoidNeuron());
         int numData = data.length;
         for (int i = 0; i < numData; ++i) {

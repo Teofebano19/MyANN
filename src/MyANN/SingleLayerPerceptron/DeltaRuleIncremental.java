@@ -1,7 +1,5 @@
 package MyANN.SingleLayerPerceptron;
 
-
-
 import MyANN.Helper;
 import java.util.*;
 import weka.core.Instances;

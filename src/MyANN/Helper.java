@@ -1,7 +1,5 @@
 package MyANN;
 
-
-
 /**
  *
  * @author Andrey
@@ -26,6 +24,6 @@ public class Helper {
         }
         else{
             return 0.0;
-        }    
+        }
     }
 }

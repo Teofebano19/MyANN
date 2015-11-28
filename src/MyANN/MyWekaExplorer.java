@@ -2,6 +2,8 @@ package MyANN;
 
 import MyANN.neurons.SigmoidNeuron;
 import MyANN.neurons.SignNeuron;
+import MyANN.neurons.StepNeuron;
+import MyANN.neurons.NoActivationNeuron;
 import java.util.ArrayList;
 import java.util.Random;
 import weka.classifiers.Classifier;
@@ -78,9 +80,9 @@ public class MyWekaExplorer {
     public static void main(String argv[]){
         MyWekaExplorer wekaInterface = new MyWekaExplorer();
         String[] data = new String[]{
-                "data/weather.numeric.arff"};
-//                "data/iris.arff"};
-        Classifier classifier = new MyANN(new ArrayList<>(), new SigmoidNeuron());
+//                "data/weather.numeric.arff"};
+                "data/iris.2D.arff"};
+        Classifier classifier = new MyANN(new ArrayList<>(), new NoActivationNeuron());
         int numData = data.length;
         for (int i = 0; i < numData; ++i) {
             System.out.printf("===================================================\n");

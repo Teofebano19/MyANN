@@ -12,6 +12,6 @@ public class StepNeuron extends Neuron{
 
     @Override
     public double calculateDelta(double output) {
-        return output * (1 - output);
+        return 1;
     }
 }

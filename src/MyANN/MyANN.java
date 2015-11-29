@@ -7,6 +7,8 @@ import java.util.Random;
 import weka.classifiers.Classifier;
 import weka.core.Instance;
 import weka.core.Instances;
+import weka.filters.Filter;
+import weka.filters.unsupervised.attribute.NominalToBinary;
 
 public class MyANN extends Classifier {
     
@@ -24,6 +26,10 @@ public class MyANN extends Classifier {
         this.layersSize = layersSize;
         this.nLayers = layersSize.size() + 1;
         this.neuron = neuron;
+    }
+    
+    public void setUpdatingPerEpoch(boolean isUpdatingPerEpoch) {
+        this.isUpdatingPerEpoch = isUpdatingPerEpoch;
     }
     
     @Override
@@ -44,7 +50,7 @@ public class MyANN extends Classifier {
         List<Double> lastOutput = input;
         for (Layer layer : layers) {
             lastOutput = layer.processInput(lastOutput);
-            System.out.println("lastOutput: " + lastOutput);
+//            System.out.println("lastOutput: " + lastOutput);
         }
         int argmax = 0;
         for (int i = 1; i < lastOutput.size(); ++i) {
@@ -56,7 +62,13 @@ public class MyANN extends Classifier {
    }
 
     private void buildNetwork(Instances instances) {
-        // TODO: handle nominal attributes
+//        try {
+//            Filter nominalToBinaryFilter = new NominalToBinary();
+//            nominalToBinaryFilter.setInputFormat(instances);
+//            Filter.useFilter(instances, nominalToBinaryFilter);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
         int numInput = 0;
         for (int i = 0; i < instances.numAttributes(); ++i) {
             if (i == instances.classIndex()) {
@@ -66,6 +78,7 @@ public class MyANN extends Classifier {
         }
         layers = new ArrayList<>();
         int numLastLayer = numInput;
+//        System.out.println("input size = " + numInput);
         // TODO: custom weight initialization
         Random random = new Random(0);
         for (Integer layerSize : layersSize) {
@@ -78,11 +91,21 @@ public class MyANN extends Classifier {
         Layer lastLayer = new Layer(numLastLayer, instances.classAttribute().numValues(), neuron);
 //        lastLayer.setRandomWeight(random);
         layers.add(lastLayer);
+//        System.out.println("last layer size = " + lastLayer.size());
     }
 
     private void train(Instances instances) {
         for (int epoch = 0; epoch < nEpoch; ++epoch) {
             double totalError = 0;
+            List<List<Double>> totalDeltas = new ArrayList<>();
+            for (int i = 0; i < nLayers; ++i) {
+                List<Double> totalDeltasThisLayer = new ArrayList<>();
+                int layerSize = layers.get(i).size();
+                for (int j = 0; j < layerSize; ++j) {
+                    totalDeltasThisLayer.add(0.);
+                }
+                totalDeltas.add(totalDeltasThisLayer);
+            }
             for (int iInstance = 0; iInstance < instances.numInstances(); ++iInstance) {
                 Instance instance = instances.instance(iInstance);
                 List<Double> input = getInput(instance);
@@ -90,6 +113,7 @@ public class MyANN extends Classifier {
                 List<List<Double>> outputs = new ArrayList<>();
                 List<Double> lastOutput = input;
                 outputs.add(lastOutput);
+                // forward chaining
                 for (Layer layer : layers) {
                     List<Double> output = layer.processInput(lastOutput);
                     outputs.add(output);
@@ -97,7 +121,7 @@ public class MyANN extends Classifier {
                 }
                 double error = calculateError(expected, lastOutput);
                 totalError += error;
-                System.out.println("\t" + iInstance + ": error = " + error);
+//                System.out.println("\t" + iInstance + ": error = " + error);
                 // back propagation starts here
                 List<List<Double>> deltas = new ArrayList<>();
                 for (int i = 0; i < nLayers; ++i) {
@@ -105,13 +129,31 @@ public class MyANN extends Classifier {
                 }
                 deltas.set(nLayers - 1, layers.get(nLayers - 1).calculateDelta(expected, lastOutput));
                 for (int i = nLayers - 2; i >= 0; --i) {
-                    deltas.set(i, layers.get(i).calculateDeltaWithBackpropagation(outputs.get(i + 1), layers.get(i), deltas.get(i + 1)));
+                    deltas.set(i, layers.get(i).calculateDeltaWithBackpropagation(outputs.get(i + 1), layers.get(i + 1), deltas.get(i + 1)));
                 }
-                for (int i = nLayers - 1; i >= 0; --i) {
-                    layers.get(i).updateWeights(learningRate, momentum, outputs.get(i), deltas.get(i));
+                if (isUpdatingPerEpoch) {
+                    for (int i = 0; i < nLayers; ++i) {
+                        for (int j = 0; j < layers.get(i).size(); ++j) {
+                            totalDeltas.get(i).set(j, totalDeltas.get(i).get(j) + deltas.get(i).get(j));
+                        }
+                    }
+                } else {
+                    for (int i = nLayers - 1; i >= 0; --i) {
+                        layers.get(i).updateWeights(learningRate, momentum, outputs.get(i), deltas.get(i));
+                    }
                 }
             }
-            System.out.println("Epoch " + epoch + ": error = " + totalError);
+            if (isUpdatingPerEpoch) {
+                for (int i = nLayers - 1; i >= 0; --i) {
+                    // create dummy input consisting of zeros
+                    List<Double> input = new ArrayList<>();
+                    for (int j = 0; j < layers.get(i).inputSize(); ++j) {
+                        input.add(0.);
+                    }
+                    layers.get(i).updateWeights(learningRate, momentum, input, totalDeltas.get(i));
+                }
+            }
+            System.out.println("Epoch " + (epoch + 1) + ": error = " + totalError);
             System.out.println("===========================================");
             if (totalError < errorThreshold) {
                 break;

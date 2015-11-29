@@ -5,6 +5,7 @@ import MyANN.neurons.SignNeuron;
 import MyANN.neurons.StepNeuron;
 import MyANN.neurons.NoActivationNeuron;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 import weka.classifiers.Classifier;
 import weka.classifiers.Evaluation;
@@ -80,22 +81,37 @@ public class MyWekaExplorer {
     public static void main(String argv[]){
         MyWekaExplorer wekaInterface = new MyWekaExplorer();
         String[] data = new String[]{
-//                "data/weather.numeric.arff"};
+                "data/weather.numeric.arff",
                 "data/iris.2D.arff"};
-        Classifier classifier = new MyANN(new ArrayList<>(), new NoActivationNeuron());
+        Classifier[] classifiers = new Classifier[]{
+            new MyANN(Arrays.asList(), new SignNeuron()),
+            new MyANN(Arrays.asList(), new NoActivationNeuron()),
+            new MyANN(Arrays.asList(), new NoActivationNeuron()),
+            new MyANN(Arrays.asList(4), new SigmoidNeuron())
+        };
+        String[] classifierNames = new String[] {
+            "Perceptron Training Rule",
+            "Delta Rule Incremental",
+            "Delta Rule Batch",
+            "Multi Layer Perceptron"
+        };
+        ((MyANN)classifiers[2]).setUpdatingPerEpoch(true);
         int numData = data.length;
+        int numClassifier = classifiers.length;
         for (int i = 0; i < numData; ++i) {
-            System.out.printf("===================================================\n");
-            System.out.printf("for training data [%s]\n", data[i]);
-            try {
-                wekaInterface.readTrainingDataFromArff(data[i]);
-                wekaInterface.buildClassifier(classifier);
-                wekaInterface.crossValidation();
-            } catch (Exception ex) {
-                System.out.println("Error was occured: " + ex.getMessage());
-                ex.printStackTrace();
+            for (int j = 0; j < numClassifier; ++j) {
+                System.out.printf("===================================================\n");
+                System.out.printf("Using [%s] for training data [%s]\n", classifierNames[j], data[i]);
+                try {
+                    wekaInterface.readTrainingDataFromArff(data[i]);
+                    wekaInterface.buildClassifier(classifiers[j]);
+                    wekaInterface.crossValidation();
+                } catch (Exception ex) {
+                    System.out.println("Error was occured: " + ex.getMessage());
+                    ex.printStackTrace();
+                }
+                System.out.printf("===================================================\n\n");
             }
-            System.out.printf("===================================================\n\n");
         }
     }
 

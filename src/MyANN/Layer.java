@@ -50,6 +50,14 @@ public class Layer implements Serializable {
         neurons.set(index, neuron);
     }
     
+    public int size() {
+        return nNeurons;
+    }
+    
+    public int inputSize() {
+        return inputSize;
+    }
+    
     /**
      * @param input the input without bias. Bias is always set to 1.
      */
@@ -90,6 +98,7 @@ public class Layer implements Serializable {
             double propagatedDelta = 0;
             double output = outputs.get(i);
             for (int j = 0; j < frontLayer.nNeurons; ++j) {
+//                System.out.printf("i = %d, j = %d, nNeuron = %d, frontDeltas = %d\n", i, j, frontLayer.nNeurons, frontDeltas.size());
                 propagatedDelta += frontLayer.weights.get(j).get(i) * frontDeltas.get(j);
             }
             deltas.add(propagatedDelta * neurons.get(i).calculateDelta(output));
